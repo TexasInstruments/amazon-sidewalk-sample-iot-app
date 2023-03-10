@@ -34,19 +34,8 @@ If you are not sure whether you have coverage, we recommend you turn on an opera
         
       Refer to the [IAM tutorial: Create and attach your first customer managed policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_managed-policies.html) for further guidance.
 
-- Install MCU-specific tools for building and flashing:
-  - Nordic
-    - Flashing Drivers: *Segger JLink* (https://www.segger.com/downloads/jlink/)
-    - Flashing Tool: *Nordic nRF Connect* (https://www.nordicsemi.com/Products/Development-tools/nRF-Connect-for-Desktop/Download)
-  - TI:
+- Install tools for building and flashing:
     - Flashing Tool: *UniFlash* (https://www.ti.com/tool/UNIFLASH)
-  - SiLabs:
-    - Flashing Drivers: *Segger JLink* (https://www.segger.com/downloads/jlink/)
-    - Flashing Tool: *Simplicity Commander* (https://community.silabs.com/s/article/simplicity-commander)
-
-
-Make sure *Simplicity Commander* (for SiLabs) are present in your system PATH environment variable.  
---> Try calling `commander --version` in the terminal to make sure the Simplicity Commander is available
 
 
 ## Getting Started
@@ -93,7 +82,7 @@ Fill out [config](./config.yaml) file with your details (or leave default values
 | ---                   | ---                                   | ---
 | *AWS_PROFILE*         | *default*                             | Profile to be used during the stack creation. If you have a custom named profile in your AWS CLI configuration files, replace 'default' with the name of your profile. Usually, you'd have just one profile named 'default'.
 | *DESTINATION_NAME*    | *SensorAppDestination*                | The Sidewalk destination used for uplink traffic routing. Can be any string.
-| *HARDWARE_PLATFORM*   | *ALL*                                 | *NORDIC* or *TI* or *SILABS* (or *ALL* if you want to have personalization data generated for all three platforms)
+| *HARDWARE_PLATFORM*   | *TI*                                  | Platform/Vendor
 | *USERNAME*            | *null* **(need to be overwritten)**   | User for the WebApp
 | *PASSWORD*            | *null* **(need to be overwritten)**   | User's password
 | *INTERACTIVE_MODE*    | *True*                                | Enables interactive mode (confirmation prompts).
@@ -142,17 +131,12 @@ It interacts with AWS to create WirelessDevice in the backend, downloads created
     - DeviceProfile_102d750c-e4d0-4e10-8742-ea3698429ca9 \
        - DeviceProfile.json
        - WirelessDevice_5153dd3a-c78f-4e9e-9d8c-3d84fabb8911\
-           --  Nordic_MFG.bin
-           --  Nordic_MFG.hex
-           --  SiLabs_MFG.nvm3
-           --  Silabs_xG21.s37
-           --  Silabs_xG24.s37
            --  TI.bin
            --  TI_P1_MFG.hex
            --  TI_P7_MFG.hex
            --  WirelessDevice.json
     ```
-   You should be able to flash it onto development kit using the flashing tools specific for your selected platform.
+   You can flash it on the launchpad along with the main image using Uniflash
 
 
 3. You can generate multiple devices by calling `provision_sidewalk_end_device.py` again or by using `--instances` parameter
@@ -166,13 +150,7 @@ In this step you will program binaries onto your development kit.
 There are two main files to flash: device-specific data from *EdgeDeviceProvisioning* (this programs serial number and authorization keys) and application binary from *EdgeDeviceBinaries* (this programs application logic)
 
 Programming devices depends on used hardware platform. Find dedicated how-tos under the following paths:  
- --> [how-to program Nordic board](./EdgeDeviceBinaries/nordic/doc/_How_to_program.md)  
- --> [how-to program SiLabs board](./EdgeDeviceBinaries/silabs/doc/_How_to_program.md)  
- --> [how-to program TI board](./EdgeDeviceBinaries/ti/doc/_How_to_program.md)  
-
-
-For detailed instructions on programming the boards, refer to official documentation of given hardware platform.
-
+ --> [how-to program TI board](./EdgeDeviceBinaries/ti/doc/_How_to_program.md)  W
 
 ### 6. Enjoy the application
 
